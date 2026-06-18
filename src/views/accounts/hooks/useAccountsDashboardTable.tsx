@@ -15,11 +15,15 @@ const columns: FlexxColumn[] = [
   {field: 'balance', headerName: 'Balance', currency: true, align: 'right'},
 ];
 
-const useAccountsDashboardTable = (accounts: Account[] | undefined) => {
+const useAccountsDashboardTable = (
+  accounts: Account[] | undefined,
+  onRowClick?: (account: Account) => void,
+) => {
   const rows: FlexxTableRow[] = useMemo(() => {
     if (!accounts) return [];
 
     return accounts.map(account => ({
+      onClick: onRowClick ? () => onRowClick(account) : undefined,
       data: {
         name: account.name,
         bank: account.bank_name,
@@ -35,7 +39,7 @@ const useAccountsDashboardTable = (accounts: Account[] | undefined) => {
         balance: account.balance,
       },
     }));
-  }, [accounts]);
+  }, [accounts, onRowClick]);
 
   return {columns, rows};
 };

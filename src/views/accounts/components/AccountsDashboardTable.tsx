@@ -2,15 +2,22 @@
 
 import React from 'react';
 
-import {FlexxTable} from '@components/FlexxTable/FlexxTable';
+import {Account} from '@/domain/Account';
 import useFetchAccounts from '@/hooks/useFetchAccounts';
-import useAccountsDashboardTable from '@views/accounts/hooks/useAccountsDashboardTable';
 import {useGlobalSearch} from '@core/hooks/useGlobalSearch';
+import {FlexxTable} from '@components/FlexxTable/FlexxTable';
+import useAccountsDashboardTable from '@views/accounts/hooks/useAccountsDashboardTable';
 
-const AccountsDashboardTable: React.FC = () => {
+interface AccountsDashboardTableProps {
+  onRowClick?: (account: Account) => void;
+}
+
+const AccountsDashboardTable: React.FC<AccountsDashboardTableProps> = ({
+  onRowClick,
+}) => {
   const {searchQuery} = useGlobalSearch();
   const {data, isLoading, isError} = useFetchAccounts({searchQuery});
-  const {columns, rows} = useAccountsDashboardTable(data);
+  const {columns, rows} = useAccountsDashboardTable(data, onRowClick);
 
   return (
     <FlexxTable
