@@ -3,18 +3,18 @@
 import React from 'react';
 
 import {Typography} from '@mui/material';
-import AccountsView from '@views/accounts/AccountsView';
 import FlexxDashboardWrapper from '@/components/FlexxDashboardWrapper';
+import TransactionsDashboardTable from '@views/transactions/components/TransactionsDashboardTable';
 
-const AccountsPage = () => {
+const TransactionsPage = () => {
   return (
     <FlexxDashboardWrapper>
       <Typography variant='h4' sx={{fontWeight: 600}}>
-        Accounts
+        Transactions
       </Typography>
-      <AccountsView />
+      <TransactionsDashboardTable />
     </FlexxDashboardWrapper>
   );
 };
 
-export default AccountsPage;
+export default TransactionsPage;

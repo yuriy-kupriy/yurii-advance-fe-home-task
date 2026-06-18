@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 
 import {expandedDrawerComponentSizes} from '@components/DrawerWrapper/DrawerWrapper';
 
@@ -17,16 +17,16 @@ export const useDrawerExpansion = ({
   >(undefined);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  const handleExpand = (
-    component: React.ReactElement,
-    width?: expandedDrawerComponentSizes,
-  ) => {
-    setCollapsedComponent(component);
-    setCollapsedComponentWidth(width);
-    setIsSettingsOpen(false);
-  };
+  const handleExpand = useCallback(
+    (component: React.ReactElement, width?: expandedDrawerComponentSizes) => {
+      setCollapsedComponent(component);
+      setCollapsedComponentWidth(width);
+      setIsSettingsOpen(false);
+    },
+    [],
+  );
 
-  const handleCloseExpansion = () => {
+  const handleCloseExpansion = useCallback(() => {
     if (collapsedComponent) {
       setCollapsedComponent(null);
       setIsSettingsOpen(false);
@@ -35,15 +35,15 @@ export const useDrawerExpansion = ({
     }
 
     onCloseDrawer();
-  };
+  }, [collapsedComponent, onCloseDrawer]);
 
-  const handleCollapseExpansion = () => {
+  const handleCollapseExpansion = useCallback(() => {
     setCollapsedComponent(null);
     setCollapsedComponentWidth(undefined);
     setIsSettingsOpen(false);
-  };
+  }, []);
 
-  const handleSettings = () => {
+  const handleSettings = useCallback(() => {
     if (isSettingsOpen) {
       setCollapsedComponent(null);
       setCollapsedComponentWidth(undefined);
@@ -54,7 +54,7 @@ export const useDrawerExpansion = ({
     setIsSettingsOpen(true);
     setCollapsedComponent(settingsComponent);
     setCollapsedComponentWidth('fill');
-  };
+  }, [isSettingsOpen, settingsComponent]);
 
   return {
     isSettingsOpen,

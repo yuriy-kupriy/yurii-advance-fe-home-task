@@ -1,43 +1,30 @@
-import ReactDOM from 'react-dom';
-import React, {useMemo} from 'react';
+import React, {useCallback} from 'react';
 
-import {useBoolean} from '@/hooks/useBoolean';
-import DrawerWrapper from '@components/DrawerWrapper/DrawerWrapper';
+import {Account} from '@/domain/Account';
+import useFormDrawer from '@/hooks/useFormDrawer';
 import CreateAccountForm from '@views/accounts/components/CreateAccountForm';
 
-export const useCreateAccount = () => {
-  const {
-    value: isOpen,
-    onTrue: openDrawer,
-    onFalse: closeDrawer,
-  } = useBoolean();
+interface UseCreateAccountArgs {
+  onCreated?: (account: Account) => void;
+}
 
-  const CreateAccountDrawer = useMemo(() => {
-    if (typeof window === 'undefined') return null;
+export const useCreateAccount = ({onCreated}: UseCreateAccountArgs = {}) => {
+  const renderForm = useCallback(
+    (close: () => void) => (
+      <CreateAccountForm
+        onClose={close}
+        onCreated={account => onCreated?.(account)}
+      />
+    ),
+    [onCreated],
+  );
 
-    return ReactDOM.createPortal(
-      <DrawerWrapper
-        open={isOpen}
-        removePaddingBottom
-        onClose={closeDrawer}
-        actions={[
-          {
-            icon: 'fluent--dismiss-24-regular',
-            onClick: closeDrawer,
-          },
-        ]}
-        drawerWidth='md'
-      >
-        <CreateAccountForm />
-      </DrawerWrapper>,
-      document.body,
-    );
-  }, [isOpen, closeDrawer]);
+  const {isOpen, openDrawer, closeDrawer, Drawer} = useFormDrawer({renderForm});
 
   return {
     isOpen,
     openDrawer,
     closeDrawer,
-    CreateAccountDrawer,
+    CreateAccountDrawer: Drawer,
   };
 };
