@@ -1,29 +1,38 @@
 import React from 'react';
 
 import {Stack} from '@mui/material';
-import AdvanceActionButtons from '@components/AdvanceActionButtons/AdvanceActionButtons';
 import {ActionButtonConfig} from '@components/AdvanceActionButtons/types';
-import {useCreateAccount} from '@views/accounts/hooks/useCreateAccount';
+import AdvanceActionButtons from '@components/AdvanceActionButtons/AdvanceActionButtons';
 
-const AccountsCtas: React.FC = () => {
-  const {openDrawer, CreateAccountDrawer} = useCreateAccount();
+interface AccountsCtasProps {
+  onAddAccount: () => void;
+  onMoveMoney: () => void;
+}
 
+const AccountsCtas: React.FC<AccountsCtasProps> = ({
+  onAddAccount,
+  onMoveMoney,
+}) => {
   const actions: ActionButtonConfig[] = [
     {
       name: 'Add Account',
       variant: 'outlined',
-      onClick: openDrawer,
+      onClick: onAddAccount,
       startIcon: 'fluent--add-circle-20-regular',
+    },
+    {
+      name: 'Move Money',
+      variant: 'outlined',
+      onClick: onMoveMoney,
+      startIcon: 'fluent--arrow-swap-20-regular',
     },
   ];
 
   return (
-    <>
-      <Stack direction='row' gap={'1rem'} alignItems={'center'}>
-        <AdvanceActionButtons actions={actions} />
-      </Stack>
-      {CreateAccountDrawer}
-    </>
+    <Stack direction='row' gap={'1rem'} alignItems={'center'}>
+      <AdvanceActionButtons actions={actions} />
+    </Stack>
   );
 };
+
 export default AccountsCtas;
