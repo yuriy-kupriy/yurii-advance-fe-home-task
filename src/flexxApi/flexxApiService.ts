@@ -1,3 +1,4 @@
+import {Transaction} from '@/domain/Transaction';
 import {Account, AccountStatus} from '@/domain/Account';
 import {get, post, put, remove} from '@/flexxApi/FlexxApiClientService';
 
@@ -40,6 +41,17 @@ class FlexxApiService {
 
   async createAccount(body: CreateAccountRequest): Promise<Account> {
     return post<Account>({endpoint: 'pages/accounts', body});
+  }
+
+  async fetchAccountTransactions(params: {
+    account_id: string;
+    search_term?: string;
+  }): Promise<Transaction[]> {
+    const {account_id, ...rest} = params;
+    const queryParams = this.formatQueryParams(rest);
+    return get<Transaction[]>({
+      endpoint: `pages/accounts/${account_id}/transactions?${queryParams}`,
+    });
   }
 }
 
