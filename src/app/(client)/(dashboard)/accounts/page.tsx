@@ -3,9 +3,8 @@
 import React from 'react';
 
 import {Typography} from '@mui/material';
+import AccountsView from '@views/accounts/AccountsView';
 import FlexxDashboardWrapper from '@/components/FlexxDashboardWrapper';
-import AccountsDashboardTable from '@views/accounts/components/AccountsDashboardTable';
-import AccountsCtas from '@views/accounts/components/AccountsCtas';
 
 const AccountsPage = () => {
   return (
@@ -13,8 +12,7 @@ const AccountsPage = () => {
       <Typography variant='h4' sx={{fontWeight: 600}}>
         Accounts
       </Typography>
-      <AccountsCtas />
-      <AccountsDashboardTable />
+      <AccountsView />
     </FlexxDashboardWrapper>
   );
 };
